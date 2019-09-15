@@ -25,18 +25,20 @@ new Vue({
   store,
   template: '<App/>'
 }).$mount('#app')
-
+console.log('printer')
 const escpos = require('escpos')
-
+console.log(escpos)
 // Select the adapter based on your printer type
-const device = new escpos.USB()
+// const device = new escpos.USB()
 // const device  = new escpos.Network('localhost');
-// const device  = new escpos.Serial('/dev/usb/lp0');
-
+const device = new escpos.Serial('LTP1')
+console.log(device)
 const options = { encoding: 'GB18030' /* default */ }
 // encoding is optional
-
+console.log(options)
 const printer = new escpos.Printer(device, options)
+console.log(printer)
+
 device.open(function() {
   printer
     .font('a')
@@ -52,8 +54,7 @@ device.open(function() {
       { text: 'Center', align: 'CENTER', width: 0.33 },
       { text: 'Right', align: 'RIGHT', width: 0.33 }
     ])
-    // .qrimage('https://github.com/song940/node-escpos', function(err) {
-    //   this.cut()
-    //   this.close()
-    // })
+    .qrimage('https://github.com/song940/node-escpos', function(err) {
+      console.log(err)
+    })
 })

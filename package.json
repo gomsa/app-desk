@@ -53,8 +53,9 @@
     }
   },
   "dependencies": {
-    "axios": "^0.19.0",
+    "axios": "0.17.1",
     "element-ui": "2.3.4",
+    "escpos": "^2.5.2",
     "js-cookie": "^2.2.0",
     "normalize.css": "7.0.0",
     "nprogress": "0.2.0",
@@ -83,6 +84,7 @@
     "electron-builder": "^19.19.1",
     "electron-debug": "^1.4.0",
     "electron-devtools-installer": "^2.2.0",
+    "electron-rebuild": "^1.8.6",
     "eslint": "^4.4.1",
     "eslint-friendly-formatter": "^3.0.0",
     "eslint-loader": "^1.9.0",
@@ -102,7 +104,7 @@
     "vue-style-loader": "^3.0.1",
     "vue-template-compiler": "2.5.10",
     "webpack": "^3.5.2",
-    "webpack-dev-server": "^3.8.0",
+    "webpack-dev-server": "^2.7.1",
     "webpack-hot-middleware": "^2.18.2"
   }
 }
