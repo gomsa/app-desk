@@ -1,4 +1,4 @@
-# electron-vue-admin
+# app-desk
 
 > An electron-vue project
 
@@ -33,4 +33,4 @@ npm run pack
 
 
 ## Download
-Mac: [app release](https://github.com/PanJiaChen/electron-vue-admin/releases/tag/v3.0.0)
+Mac: [app release](https://github.com/PanJiaChen/app-desk/releases/tag/v3.0.0)
