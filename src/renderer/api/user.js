@@ -1,24 +1,78 @@
 import request from '@/utils/request'
 
-export function login(data) {
+export function Exist(data) {
   return request({
-    url: '/user/login',
     method: 'post',
-    data
+    data: {
+      'service': 'user-api',
+      'method': 'Users.Exist',
+      'request': data
+    }
   })
 }
 
-export function getInfo(token) {
+export function List(data) {
   return request({
-    url: '/user/info',
-    method: 'get',
-    params: { token }
+    method: 'post',
+    data: {
+      'service': 'user-api',
+      'method': 'Users.List',
+      'request': data
+    }
   })
 }
 
-export function logout() {
+export function Info() {
   return request({
-    url: '/user/logout',
-    method: 'post'
+    method: 'post',
+    data: {
+      service: 'user-api',
+      method: 'Users.Info',
+      request: {}
+    }
+  })
+}
+
+export function Get(data) {
+  return request({
+    method: 'post',
+    data: {
+      'service': 'user-api',
+      'method': 'Users.Get',
+      'request': data
+    }
+  })
+}
+
+export function Create(data) {
+  return request({
+    method: 'post',
+    data: {
+      'service': 'user-api',
+      'method': 'Users.Create',
+      'request': data
+    }
+  })
+}
+
+export function Update(data) {
+  return request({
+    method: 'post',
+    data: {
+      'service': 'user-api',
+      'method': 'Users.Update',
+      'request': data
+    }
+  })
+}
+
+export function Delete(data) {
+  return request({
+    method: 'post',
+    data: {
+      'service': 'user-api',
+      'method': 'Users.Delete',
+      'request': data
+    }
   })
 }
