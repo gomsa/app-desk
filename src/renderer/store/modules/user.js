@@ -6,19 +6,37 @@ import { resetRouter } from '@/router'
 
 const state = {
   token: getToken(),
-  name: '',
-  avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+  username: '',
+  name: '未设置别名',
+  avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+  roles: [],
+  front_permits: []
 }
 
 const mutations = {
   SET_TOKEN: (state, token) => {
     state.token = token
   },
+  SET_USERNAME: (state, username) => {
+    if (username) {
+      state.username = username
+    }
+  },
   SET_NAME: (state, name) => {
-    state.name = name
+    if (name) {
+      state.name = name
+    }
   },
   SET_AVATAR: (state, avatar) => {
-    state.avatar = avatar
+    if (avatar) {
+      state.avatar = avatar
+    }
+  },
+  SET_ROLES: (state, roles) => {
+    state.roles = roles
+  },
+  SET_FRONT_PEIMITS: (state, front_permits) => {
+    state.front_permits = front_permits
   }
 }
 
@@ -47,12 +65,23 @@ const actions = {
         if (!data) {
           reject('Verification failed, please Login again.')
         }
-
-        console.log(data)
-        const { name, avatar } = data
-
+        // 用户相关信息设置
+        const { username, name, avatar } = data.user
         commit('SET_NAME', name)
+        commit('SET_USERNAME', username)
         commit('SET_AVATAR', avatar)
+        // 角色相关信息设置
+        let roles = ['user']
+        if ('roles' in data) {
+          roles = data.roles
+        }
+        commit('SET_ROLES', roles)
+        // 前端权限相关设置
+        let front_permits = []
+        if ('front_permits' in data) {
+          front_permits = data.front_permits
+        }
+        commit('SET_FRONT_PEIMITS', front_permits)
         resolve(data)
       }).catch(error => {
         reject(error)
