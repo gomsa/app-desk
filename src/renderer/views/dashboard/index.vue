@@ -10,7 +10,7 @@ export default {
   name: 'Dashboard',
   data() {
     return {
-      hello: '123'
+      hello: 'hello'
     }
   },
   computed: {
