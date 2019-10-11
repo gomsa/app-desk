@@ -20,11 +20,30 @@
             />
           </el-row>
         </el-col>
-        <el-col :span="10"><div class="grid-content bg-purple">1</div></el-col>
+        <el-col :span="10">
+          <el-row>
+            <el-col :span="12" class="good">
+              <span>名称: {{ good.name }}</span>
+              <span>单价: {{ good.price }}</span>
+              <span>小计: {{ good.subtotal }}</span>
+              <span>部门: {{ good.dep }}</span>
+            </el-col>
+            <el-col :span="12" class="good">
+              <span>序号: {{ good.id }}</span>
+              <span>数量: {{ good.number }}</span>
+              <span>编码: {{ good.code }}</span>
+              <span>条码: {{ good.barcode }}</span>
+            </el-col>
+          </el-row>
+        </el-col>
         <el-col :span="8">
           <div class="payable background-danger">
-            <el-row class="total"> 收 款 </el-row>
-            <el-row class="totals">￥{{ total.toFixed(2) }}</el-row>
+            <el-row class="total"> 
+              <span>收 款</span>
+              <span></span>
+              <span>数 量: {{ number.toFixed(2) }}</span>
+            </el-row>
+            <el-row class="totals">￥{{ (total/100).toFixed(2) }}</el-row>
           </div>
         </el-col>
       </el-row>
@@ -44,6 +63,14 @@ export default {
     total: {
       type: Number,
       default: 0.00
+    },
+    number: {
+      type: Number,
+      default: 0
+    },
+    good: {
+      type: Object,
+      default: {}
     }
   },
   data() {
@@ -98,11 +125,23 @@ export default {
 }
 .order{
   margin-top: 1vh;
+  font-size: 1.9vw;
   .id{
     color: @el-warning;
   }
 }
-
+.stauts{
+  font-size: 1.9vw;
+}
+.good{
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: column;
+  span{
+    margin-bottom: 1vh;
+    font-size: 1.9vw;
+  }
+}
 .success{
   color: @el-success;
 }
@@ -131,8 +170,11 @@ export default {
   color: #ffffff;
   font-weight: 900;
   .total{
-    font-size: 3vh;
-    padding-left: 1vh;
+    display: -webkit-flex; /* Safari */
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.9vw;
+    padding-left: 1vw;
   }
   .totals{
     font-size: 5vw;

@@ -30,7 +30,7 @@
           width="130"
         >
           <template slot-scope="scope">
-            {{ scope.row.number.toFixed(2)}}
+            {{ scope.row.number.toFixed(2) }}
           </template>
         </el-table-column>
         <el-table-column
@@ -39,7 +39,7 @@
           width="130"
         >
           <template slot-scope="scope">
-            {{ scope.row.price.toFixed(2) }}
+            {{ (scope.row.price/100).toFixed(2) }}
           </template>
         </el-table-column>
         <el-table-column
@@ -48,7 +48,7 @@
           width="130"
         >
           <template slot-scope="scope">
-            {{ scope.row.subtotal.toFixed(2) }}
+            {{ (scope.row.subtotal/100).toFixed(2) }}
           </template>
         </el-table-column>
       </el-table>
@@ -66,7 +66,8 @@ export default {
   },
   data() {
     return {
-      currentRow: 0
+      currentRow: 0,
+      good: {}
     }
   },
   computed: {
@@ -87,14 +88,20 @@ export default {
       if (value < 0 && this.currentRow > 0) {
         this.currentRow = this.currentRow + value
       }
-      this.$refs.table.setCurrentRow(this.goods[this.currentRow])
+      this.setCurrentRow(this.currentRow)
       this.scrollTop(this.currentRow)
     },
     // 重置选择行
-    resetCurrentRow() {
-      this.currentRow = 0
-      this.$refs.table.setCurrentRow(this.goods[this.currentRow])
+    resetCurrentRow(value = 0) {
+      this.currentRow = value
+      this.setCurrentRow(this.currentRow)
       this.scrollTop(this.currentRow)
+    },
+    // 设置选择航
+    setCurrentRow(value) {
+      this.$refs.table.setCurrentRow(this.goods[value])
+      this.good = this.goods[value]
+      this.$emit('good', this.good)
     },
     // 滚动窗口到指定行
     scrollTop(value) {
@@ -105,6 +112,7 @@ export default {
       if (number) {
         this.goods[this.currentRow].number = JSON.parse(JSON.stringify(number))
         this.goods[this.currentRow].subtotal = number * this.goods[this.currentRow].price
+        this.$emit('good', this.goods[this.currentRow])
       }
     }
   }

@@ -10,12 +10,15 @@
     <goods
       ref="goods"
       :goods="goods"
+      @good="handerGood"
     />
     <foots
       ref="foots"
       @input="handerInput"
       :status="status"
       :total="total"
+      :number="number"
+      :good="good"
     />
   </div>
 </template>
@@ -36,13 +39,17 @@ export default {
     return {
       status: true, // 销售状态 销货 退货
       goods: [],
+      number: 0,
       total: 0.00,
-      good: {
+      good: {},
+      good11: {
         code: '0123456789123',
+        barcode: '6123412345123',
         name: '可乐果粒橙',
-        // number: 13,
-        price: 35.26,
-        subtotal: 6000
+        dep: '1024',
+        // number: 100,
+        price: 3526,
+        subtotal: 1826
       }
     }
   },
@@ -65,12 +72,21 @@ export default {
     goods: {
       handler: function(val, oldVal) {
         this.total = 0
+        this.number = 0
+        let id = this.goods.length
         val.forEach(goods => {
+          // 重新计算id
+          goods.id = id
+          id--
+          // 计算总价或者数量
           if (!goods.subtotal) {
             goods.subtotal = goods.number * goods.price
           } else {
-            goods.number = goods.subtotal / goods.price
+            goods.number = Math.round(goods.subtotal / goods.price * 100) / 100
           }
+          // 计算总数量
+          this.number = this.number + goods.number
+          // 计算订单总价
           this.total = this.total + goods.subtotal
         })
       },
@@ -102,12 +118,28 @@ export default {
         this.$refs.goods.setNumber(this.$refs.foots.input)
         this.$refs.foots.input = ''
       })
+      // 删除指定商品
+      Mousetrap.bindGlobal('w', () => {
+        this.goods.splice(this.$refs.goods.currentRow, 1)
+        const currentRow = this.$refs.goods.currentRow > 0 ? this.$refs.goods.currentRow - 1 : 0
+        this.$refs.goods.resetCurrentRow(currentRow)
+      })
+      // 清空商品
+      Mousetrap.bindGlobal('q', () => {
+        this.goods = []
+      })
+      // 退货
+      Mousetrap.bindGlobal('t', () => {
+        this.status = !this.status
+      })
     },
     handerInput(value) {
-      this.good.id = this.goods.length + 1
-      this.goods.unshift(JSON.parse(JSON.stringify(this.good)))
+      this.goods.unshift(JSON.parse(JSON.stringify(this.good11)))
       this.$refs.goods.resetCurrentRow() // 重置选中行
       this.$refs.foots.input = ''
+    },
+    handerGood(good) {
+      this.good = good
     }
   },
   destroyed() {
