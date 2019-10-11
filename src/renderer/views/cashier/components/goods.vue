@@ -1,13 +1,18 @@
 <template>
       <el-table
+        ref="table"
         :data="goods"
-        height="80vh"
+        height="72vh"
+        size="mini"
         highlight-current-row
         class="goods"
       >
+        <template slot="empty">暂无商品录入</template>
         <el-table-column
-        type="index"
-        width="50">
+          label="#"
+          prop="id"
+          width="50"
+        >
         </el-table-column>
         <el-table-column
           prop="code"
@@ -22,20 +27,29 @@
         <el-table-column
           prop="number"
           label="数量"
-          width="180"
+          width="130"
         >
+          <template slot-scope="scope">
+            {{ scope.row.number.toFixed(2)}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="price"
           label="单价"
-          width="180"
+          width="130"
         >
+          <template slot-scope="scope">
+            {{ scope.row.price.toFixed(2) }}
+          </template>
         </el-table-column>
         <el-table-column
           prop="subtotal"
           label="小计"
-          width="200"
+          width="130"
         >
+          <template slot-scope="scope">
+            {{ scope.row.subtotal.toFixed(2) }}
+          </template>
         </el-table-column>
       </el-table>
 </template>
@@ -43,106 +57,16 @@
 <script>
 import { mapGetters } from 'vuex'
 export default {
-  name: 'Dashboard',
+  name: 'goods',
+  props: {
+    goods: {
+      type: Array,
+      default: []
+    }
+  },
   data() {
     return {
-      goods: [{
-        code: '0123456789111',
-        name: '可乐果粒橙',
-        number: 99991.00,
-        price: 9.90,
-        subtotal: 9.90
-      }, {
-        code: '83079',
-        name: '小中排',
-        number: 2.95,
-        price: 32,
-        subtotal: 94.5
-      }, {
-        code: '17321',
-        name: '14特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '13特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '12特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '11特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '10特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '9特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '8特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '7特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '6特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '5特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '4特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '3特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '2特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }, {
-        code: '17321',
-        name: '1特价菜',
-        number: 0.50,
-        price: 4,
-        subtotal: 2
-      }]
+      currentRow: 0
     }
   },
   computed: {
@@ -152,7 +76,37 @@ export default {
   },
   created() {
   },
+  mounted() {
+  },
   methods: {
+    // 1 or -1 上下选择行
+    handerCurrentRow(value) {
+      if (value > 0 && this.goods.length - 1 > this.currentRow) {
+        this.currentRow = this.currentRow + value
+      }
+      if (value < 0 && this.currentRow > 0) {
+        this.currentRow = this.currentRow + value
+      }
+      this.$refs.table.setCurrentRow(this.goods[this.currentRow])
+      this.scrollTop(this.currentRow)
+    },
+    // 重置选择行
+    resetCurrentRow() {
+      this.currentRow = 0
+      this.$refs.table.setCurrentRow(this.goods[this.currentRow])
+      this.scrollTop(this.currentRow)
+    },
+    // 滚动窗口到指定行
+    scrollTop(value) {
+      this.$refs.table.bodyWrapper.scrollTop = value * 36
+    },
+    // 设置选择行数量
+    setNumber(number) {
+      if (number) {
+        this.goods[this.currentRow].number = JSON.parse(JSON.stringify(number))
+        this.goods[this.currentRow].subtotal = number * this.goods[this.currentRow].price
+      }
+    }
   }
 }
 </script>
@@ -162,29 +116,30 @@ export default {
 .goods{
   width:100vw;
 }
-.el-table::before{
-  height:0px;
-}
 .el-table /deep/ th{
-    color: @syntax-color-class;
-    font-size:x-large;
+    color: @el-warning;
+    font-size:2.5vh;
     background-color: @syntax-background-color;
 }
 .el-scrollbar__wrap {
   overflow-x: hidden;
 }
 .el-table /deep/ tr{
-    font-size:x-large;
-    color: @syntax-color-snippet;
+    font-size:2.5vh;
+    color: @el-success;
     background-color: @syntax-background-color;
 }
 .el-table {
-    font-size:x-large;
+    font-size:2.5vh;
     background-color: @syntax-background-color;
 }
-.el-table /deep/ .el-table__body tr.current-row>td, .el-table /deep/ .el-table__body tr.hover-row>td{
-    background-color: @syntax-wrap-guide-color;
+.el-table /deep/ .el-table__body tr.current-row>td{
+  color: @el-danger;
+  font-size:3vh;
 }
-
+// 取消背景色
+.el-table /deep/ .el-table__body tr.current-row>td,.el-table /deep/ .el-table__body tr.hover-row>td{
+  background-color: @syntax-background-color;
+}
 
 </style>

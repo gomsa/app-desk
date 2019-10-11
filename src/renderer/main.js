@@ -9,6 +9,7 @@ import locale from 'element-ui/lib/locale/lang/en' // lang i18n
 import App from './App'
 import router from './router'
 import store from './store'
+import * as filters from './filters' // global filters
 
 import '@/styles/index.scss' // global css
 import '@/icons' // icon
@@ -20,6 +21,11 @@ Vue.config.productionTip = false
 
 // set ElementUI lang to EN
 Vue.use(ElementUI, { locale })
+
+// register global utility filters
+Object.keys(filters).forEach(key => {
+  Vue.filter(key, filters[key])
+})
 
 /* eslint-disable no-new */
 new Vue({

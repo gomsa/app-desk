@@ -65,3 +65,16 @@ app.on('ready', () => {
   if (process.env.NODE_ENV === 'production') autoUpdater.checkForUpdates()
 })
  */
+
+const { globalShortcut } = require('electron')
+
+app.on('ready', () => {
+  globalShortcut.register('F1', () => {
+    app.focus()
+  })
+})
+app.on('ready', () => {
+  globalShortcut.register('F2', () => {
+    app.hide()
+  })
+})
