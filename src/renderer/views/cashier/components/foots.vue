@@ -99,7 +99,6 @@ export default {
       this.$refs.input.focus()
     },
     handerInput() {
-      console.log(this.input)
       this.$emit('input', this.input)
     },
     hanerOnInput(value) {

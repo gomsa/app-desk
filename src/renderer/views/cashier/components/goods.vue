@@ -100,8 +100,10 @@ export default {
     // 设置选择航
     setCurrentRow(value) {
       this.$refs.table.setCurrentRow(this.goods[value])
-      this.good = this.goods[value]
-      this.$emit('good', this.good)
+      if (this.goods[value]) {
+        this.good = this.goods[value]
+        this.$emit('good', this.good)
+      }
     },
     // 滚动窗口到指定行
     scrollTop(value) {
@@ -112,7 +114,7 @@ export default {
       if (number && this.goods.length > 0) {
         // 防止输入 1.256.6655.6这类数
         number = parseFloat(number).toFixed(2)
-        this.goods[this.currentRow].number = JSON.parse(JSON.stringify(number))
+        this.goods[this.currentRow].number = number
         this.goods[this.currentRow].subtotal = number * this.goods[this.currentRow].price
         this.$emit('good', this.goods[this.currentRow])
       }

@@ -45,6 +45,7 @@ export default {
       goods: [],
       number: 0,
       total: 0.00,
+      actualPay: 0.00, // 实际付款现金金额
       good: {},
       good11: {
         code: '0123456789123',
@@ -121,6 +122,10 @@ export default {
       Mousetrap.bindGlobal('a', () => {
         this.$refs.goods.setNumber(this.$refs.foots.input)
         this.$refs.foots.input = ''
+        this.$message({
+          type: 'success',
+          message: '修改商品数量成功'
+        })
       })
       // 删除指定商品
       Mousetrap.bindGlobal('w', () => {
@@ -128,11 +133,30 @@ export default {
           this.goods.splice(this.$refs.goods.currentRow, 1)
           const currentRow = this.$refs.goods.currentRow > 0 ? this.$refs.goods.currentRow - 1 : 0
           this.$refs.goods.resetCurrentRow(currentRow)
+          this.$message({
+            type: 'success',
+            message: '删除指定商品成功'
+          })
         }
       })
       // 清空商品
       Mousetrap.bindGlobal('q', () => {
-        this.goods = []
+        this.$confirm('此操作将情况全部商品, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          this.goods = []
+          this.$message({
+            type: 'success',
+            message: '清空商品成功!'
+          })
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消清空商品'
+          })
+        })
       })
       // 退货
       Mousetrap.bindGlobal('t', () => {
@@ -140,11 +164,19 @@ export default {
       })
       // 现金结算
       Mousetrap.bindGlobal('x', () => {
-        this.orderEnd()
+        this.actualPay = Math.floor(this.$refs.foots.input * 100)
+        if (this.actualPay >= this.total) {
+          this.orderEnd()
+        } else {
+          this.$notify.error({
+            title: '结算失败',
+            message: '请输入足够的现金'
+          })
+        }
       })
     },
     orderEnd() {
-      console.log(this.order)
+      console.log('结算完成打印', this.order)
     },
     handerInput(value) {
       this.goods.unshift(JSON.parse(JSON.stringify(this.good11)))
