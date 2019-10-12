@@ -19,6 +19,7 @@
       :total="total"
       :number="number"
       :good="good"
+      :order="order"
     />
   </div>
 </template>
@@ -38,6 +39,9 @@ export default {
   data() {
     return {
       status: true, // 销售状态 销货 退货
+      order: {
+        id: '00101910060289'
+      },
       goods: [],
       number: 0,
       total: 0.00,
@@ -120,9 +124,11 @@ export default {
       })
       // 删除指定商品
       Mousetrap.bindGlobal('w', () => {
-        this.goods.splice(this.$refs.goods.currentRow, 1)
-        const currentRow = this.$refs.goods.currentRow > 0 ? this.$refs.goods.currentRow - 1 : 0
-        this.$refs.goods.resetCurrentRow(currentRow)
+        if (this.goods.length > 0) {
+          this.goods.splice(this.$refs.goods.currentRow, 1)
+          const currentRow = this.$refs.goods.currentRow > 0 ? this.$refs.goods.currentRow - 1 : 0
+          this.$refs.goods.resetCurrentRow(currentRow)
+        }
       })
       // 清空商品
       Mousetrap.bindGlobal('q', () => {
@@ -132,6 +138,13 @@ export default {
       Mousetrap.bindGlobal('t', () => {
         this.status = !this.status
       })
+      // 现金结算
+      Mousetrap.bindGlobal('x', () => {
+        this.orderEnd()
+      })
+    },
+    orderEnd() {
+      console.log(this.order)
     },
     handerInput(value) {
       this.goods.unshift(JSON.parse(JSON.stringify(this.good11)))

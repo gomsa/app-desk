@@ -109,7 +109,9 @@ export default {
     },
     // 设置选择行数量
     setNumber(number) {
-      if (number) {
+      if (number && this.goods.length > 0) {
+        // 防止输入 1.256.6655.6这类数
+        number = parseFloat(number).toFixed(2)
         this.goods[this.currentRow].number = JSON.parse(JSON.stringify(number))
         this.goods[this.currentRow].subtotal = number * this.goods[this.currentRow].price
         this.$emit('good', this.goods[this.currentRow])

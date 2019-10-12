@@ -8,14 +8,14 @@
           </el-row>
           <el-row class="order"> 
             <span>订单号:</span>
-            <span class="id"> {{ orderID }} </span>
+            <span class="id"> {{ order.id }} </span>
           </el-row> 
           <el-row> 
             <el-input 
               ref="input"
               v-model="input" 
               @keyup.enter.native="handerInput"
-              oninput="value=value.replace(/[^0-9.]/g,'')"
+              @input="hanerOnInput"
               placeholder="条码/编码/付款码/数量"
             />
           </el-row>
@@ -71,6 +71,10 @@ export default {
     good: {
       type: Object,
       default: {}
+    },
+    order: {
+      type: Object,
+      default: {}
     }
   },
   data() {
@@ -82,9 +86,6 @@ export default {
     ...mapGetters([
       'name'
     ]),
-    orderID() {
-      return '00101910060289'
-    },
     sales() {
       return this.status ? '销货' : '退货'
     }
@@ -98,7 +99,11 @@ export default {
       this.$refs.input.focus()
     },
     handerInput() {
+      console.log(this.input)
       this.$emit('input', this.input)
+    },
+    hanerOnInput(value) {
+      this.input = value.replace(/[^0-9.]/g, '')
     }
   },
   destroyed() {
