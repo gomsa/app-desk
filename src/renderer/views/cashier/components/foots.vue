@@ -130,13 +130,13 @@ export default {
 }
 .order{
   margin-top: 1vh;
-  font-size: 1.9vw;
+  font-size: 2.1vh;
   .id{
     color: @el-warning;
   }
 }
 .stauts{
-  font-size: 1.9vw;
+  font-size: 2.1vh;
 }
 .good{
   display: -webkit-flex; /* Safari */
@@ -144,7 +144,7 @@ export default {
   flex-direction: column;
   span{
     margin-bottom: 1vh;
-    font-size: 1.9vw;
+    font-size: 2.1vh;
   }
 }
 .success{
@@ -168,6 +168,10 @@ export default {
 }
 
 .payable{
+  display: -webkit-flex; /* Safari */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   width: 30vw;
   height: 15vh;
   border-radius:4px;
@@ -178,11 +182,11 @@ export default {
     display: -webkit-flex; /* Safari */
     display: flex;
     justify-content: space-between;
-    font-size: 1.9vw;
+    font-size: (100vh/100vw)*3vw;
     padding-left: 1vw;
   }
-  .totals{
-    font-size: 5vw;
+  .totals {
+    font-size: (100vh/100vw)*7vw;
   }
 }
 </style>

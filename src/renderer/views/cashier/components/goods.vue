@@ -17,7 +17,7 @@
         <el-table-column
           prop="code"
           label="编码"
-          width="200"
+          width="220"
         >
         </el-table-column>
         <el-table-column
@@ -45,7 +45,7 @@
         <el-table-column
           prop="subtotal"
           label="小计"
-          width="130"
+          width="150"
         >
           <template slot-scope="scope">
             {{ (scope.row.subtotal/100).toFixed(2) }}
