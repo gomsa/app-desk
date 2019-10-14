@@ -19,6 +19,10 @@
               placeholder="条码/编码/付款码/数量"
             />
           </el-row>
+          <el-row v-if="cacheAmount" class="cacheAmount"> 
+            <span class="id"> 待扫码/刷卡金额: </span>
+            <span>{{ (cacheAmount/100).toFixed(2) }} </span>
+          </el-row> 
         </el-col>
         <el-col :span="10">
           <el-row>
@@ -64,6 +68,10 @@ export default {
       type: Number,
       default: 0.00
     },
+    cacheAmount: {
+      type: Number,
+      default: 0.00
+    },
     number: {
       type: Number,
       default: 0
@@ -102,7 +110,7 @@ export default {
       this.$emit('input', this.input)
     },
     hanerOnInput(value) {
-      this.input = value.replace(/[^0-9.]/g, '')
+      this.input = value.replace(/[^0-9.;]/g, '')
     }
   },
   destroyed() {
@@ -136,6 +144,13 @@ export default {
 }
 .stauts{
   font-size: 2.1vh;
+}
+.cacheAmount{
+  font-size: 2.1vh;
+  margin-top: 1vh;
+  span{
+    color: @el-danger;
+  }
 }
 .good{
   display: -webkit-flex; /* Safari */
