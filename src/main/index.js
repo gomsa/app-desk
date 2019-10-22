@@ -78,3 +78,5 @@ app.on('ready', () => {
     app.hide()
   })
 })
+
+console.log(app.getPath('userData'))

@@ -3,23 +3,23 @@
 import Layout from '@/layout'
 
 export default {
-  path: '/cashier',
+  path: '/pos',
   component: Layout,
-  redirect: '/cashier/collect',
-  name: 'Cashier',
+  redirect: '/pos/index',
+  name: 'Pos',
   meta: {
     title: '收银',
-    icon: 'cashier'
+    icon: 'pos'
   },
   children: [
     {
-      path: 'cashier/collect',
-      name: 'Collect',
-      component: () => import('@/views/cashier/collect'),
+      path: 'pos/index',
+      name: 'Pos',
+      component: () => import('@/views/pos/index'),
       meta: {
         title: '收款',
         icon: 'table',
-        permits: ['ui_cashier_collect']
+        permits: ['ui_pos_index']
       }
     }
   ]

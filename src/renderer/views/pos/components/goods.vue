@@ -11,23 +11,25 @@
         <el-table-column
           label="#"
           prop="id"
-          width="50"
+          min-width="35"
         >
         </el-table-column>
         <el-table-column
           prop="code"
           label="编码"
-          width="220"
+          min-width="160"
         >
         </el-table-column>
         <el-table-column
           prop="name"
-          label="商品名称">
+          label="商品名称"
+          min-width="180"
+        >
         </el-table-column>
         <el-table-column
           prop="number"
           label="数量"
-          width="130"
+          min-width="100"
         >
           <template slot-scope="scope">
             {{ scope.row.number.toFixed(2) }}
@@ -36,19 +38,19 @@
         <el-table-column
           prop="price"
           label="单价"
-          width="130"
+          min-width="100"
         >
           <template slot-scope="scope">
             {{ (scope.row.price/100).toFixed(2) }}
           </template>
         </el-table-column>
         <el-table-column
-          prop="subtotal"
+          prop="total"
           label="小计"
-          width="150"
+          min-width="100"
         >
           <template slot-scope="scope">
-            {{ (scope.row.subtotal/100).toFixed(2) }}
+            {{ (scope.row.total/100).toFixed(2) }}
           </template>
         </el-table-column>
       </el-table>
@@ -74,6 +76,25 @@ export default {
     ...mapGetters([
       'name'
     ])
+  },
+  watch: {
+    goods: {
+      handler: function(val, oldVal) {
+        let id = val.length
+        val.forEach(goods => {
+        // 重新计算id
+          goods.id = id
+          id--
+          // 计算总价或者数量
+          if (!goods.total) {
+            goods.total = goods.number * goods.price
+          } else {
+            goods.number = Math.round(goods.total / goods.price * 100) / 100
+          }
+        })
+      },
+      deep: true
+    }
   },
   created() {
   },
@@ -102,7 +123,7 @@ export default {
       this.$refs.table.setCurrentRow(this.goods[value])
       if (this.goods[value]) {
         this.good = this.goods[value]
-        this.$emit('good', this.good)
+        this.$emit('currentGoods', this.good)
       }
     },
     // 滚动窗口到指定行
@@ -115,8 +136,16 @@ export default {
         // 防止输入 1.256.6655.6这类数
         number = parseFloat(number).toFixed(2)
         this.goods[this.currentRow].number = number
-        this.goods[this.currentRow].subtotal = number * this.goods[this.currentRow].price
-        this.$emit('good', this.goods[this.currentRow])
+        this.goods[this.currentRow].total = number * this.goods[this.currentRow].price
+        this.$emit('currentGoods', this.goods[this.currentRow])
+      }
+    },
+    // 删除选择商品
+    deleteGoods() {
+      if (this.goods.length > 0) {
+        this.goods.splice(this.currentRow, 1)
+        const currentRow = this.currentRow > 0 ? this.currentRow - 1 : 0
+        this.resetCurrentRow(currentRow)
       }
     }
   }

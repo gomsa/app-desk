@@ -8,7 +8,7 @@
           </el-row>
           <el-row class="order"> 
             <span>订单号:</span>
-            <span class="id"> {{ order.id }} </span>
+            <span class="id"> {{ order.order_no }} </span>
           </el-row> 
           <el-row> 
             <el-input 
@@ -25,18 +25,27 @@
           </el-row> 
         </el-col>
         <el-col :span="10">
-          <el-row>
+          <div v-if="order.pays.length>0">
+            <div v-for="(pay,index) in order.pays" :key="index" class="pay-list">
+              <div class="name"><span class="warning">{{pay.type | payName}} </span></div>
+              <div class="pay">付款: <span class="success">{{(pay.amount/100).toFixed(2) }} </span></div>
+              <div class="change">实收: <span class="brand"> {{((pay.getCash?pay.getCash:pay.amount)/100).toFixed(2) }} </span></div>
+              <!-- <div>找零: <span>{{((pay.getCash - pay.amount)/100).toFixed(2) }} </span></div> -->
+              <div class="status"><span v-bind:class="[ pay.status ? 'success' : 'danger']">{{pay.status ?'已收款':'待收款' }} </span></div>
+            </div>
+          </div>
+          <el-row v-else>
             <el-col :span="12" class="good">
-              <span>名称: {{ good.name }}</span>
-              <span>单价: {{ good.price }}</span>
-              <span>小计: {{ good.subtotal }}</span>
-              <span>部门: {{ good.dep }}</span>
+              <span>名称: {{ goods.name }}</span>
+              <span>单价: {{ goods.price?(goods.price/100).toFixed(2):'' }}</span>
+              <span>小计: {{ goods.price?(goods.total/100).toFixed(2):'' }}</span>
+              <span>部门: {{ goods.dep }}</span>
             </el-col>
             <el-col :span="12" class="good">
-              <span>序号: {{ good.id }}</span>
-              <span>数量: {{ good.number }}</span>
-              <span>编码: {{ good.code }}</span>
-              <span>条码: {{ good.barcode }}</span>
+              <span>序号: {{ goods.id }}</span>
+              <span>数量: {{ goods.number }}</span>
+              <span>编码: {{ goods.code }}</span>
+              <span>条码: {{ goods.barcode }}</span>
             </el-col>
           </el-row>
         </el-col>
@@ -64,21 +73,14 @@ export default {
       type: Boolean,
       default: true
     },
-    total: {
-      type: Number,
-      default: 0.00
-    },
     cacheAmount: {
       type: Number,
       default: 0.00
     },
-    number: {
-      type: Number,
-      default: 0
-    },
-    good: {
+    goods: {
       type: Object,
-      default: {}
+      default: {
+      }
     },
     order: {
       type: Object,
@@ -87,7 +89,9 @@ export default {
   },
   data() {
     return {
-      input: ''
+      input: '',
+      number: 0,
+      total: 0.00
     }
   },
   computed: {
@@ -96,6 +100,40 @@ export default {
     ]),
     sales() {
       return this.status ? '销货' : '退货'
+    }
+  },
+  filters: {
+    payName(value) {
+      switch (value) {
+        case 'vipCard':
+          return '储值卡'
+        case 'alipay':
+          return '支付宝'
+        case 'wechat':
+          return '微信'
+        case 'cash':
+          return '现金'
+        default:
+          break
+      }
+    }
+  },
+  watch: {
+    order: {
+      handler: function(val, oldVal) {
+        let number = 0
+        let total = 0
+        this.order.goods.forEach(good => {
+          number = number + good.number
+          total = total + good.total
+        })
+        this.order.pays.forEach(pay => {
+          total = total - pay.amount
+        })
+        this.number = number
+        this.total = total
+      },
+      deep: true
     }
   },
   created() {
@@ -134,6 +172,8 @@ export default {
   margin-top: 1vh;
   background-color: #606266;
   color:#FFF;
+  height:6vh;
+  line-height:6vh;
 }
 .order{
   margin-top: 1vh;
@@ -153,13 +193,16 @@ export default {
   }
 }
 .good{
-  display: -webkit-flex; /* Safari */
+  
   display: flex;
   flex-direction: column;
   span{
     margin-bottom: 1vh;
     font-size: 2.1vh;
   }
+}
+.brand{
+  color: @el-brand;
 }
 .success{
   color: @el-success;
@@ -180,20 +223,35 @@ export default {
 .background-danger{
   background-color: @el-danger;
 }
-
+.pay-list{
+  display: flex;
+  justify-content: space-between;
+  font-size: (100vh/100vw)*2vw;
+  .name{
+    width: 15%;
+  }
+  .pay{
+    width: 35%;
+  }
+  .change{
+    width: 35%;
+  }
+  .status{
+    width: 15%;
+    text-align:right;
+  }
+}
 .payable{
-  display: -webkit-flex; /* Safari */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 30vw;
   height: 15vh;
   border-radius:4px;
-  padding: 15px;
+  padding: (100vh/100vw)*1vw;
   color: #ffffff;
   font-weight: 900;
   .total{
-    display: -webkit-flex; /* Safari */
     display: flex;
     justify-content: space-between;
     font-size: (100vh/100vw)*3vw;

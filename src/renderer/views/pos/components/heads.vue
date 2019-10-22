@@ -1,14 +1,14 @@
 <template>
     <el-row :gutter="20" class="heads">
-        <el-col class="user" :span="6">
+        <el-col class="user" :span="7">
           <el-row> 账号: {{ username }} </el-row> 
           <el-row class="username"> 名称: {{ name }} </el-row> 
         </el-col>
-        <el-col class="logo" :span="12">
+        <el-col class="logo" :span="10">
           <img :src="logo" alt=""> 
           <span>新世纪超市</span>
         </el-col>
-        <el-col class="stauts" :span="6">
+        <el-col class="stauts" :span="7">
             <el-row> 
               <svg-icon v-bind:class="{ active: stauts.router }" icon-class="router" />  
               <svg-icon v-bind:class="{ active: stauts.server }" icon-class="server" />
