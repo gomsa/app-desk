@@ -40,6 +40,8 @@ import Fixed from './components/fixed.vue'
 import { Pay, Refund } from '@/api/pay'
 import { Get as VipCardGet } from '@/api/vipCard'
 
+import { Sync as SyncGoods } from '@/api/goods'
+
 import Order from '@/model/order'
 
 export default {
@@ -94,6 +96,7 @@ export default {
   },
   mounted() {
     this.focus()
+    SyncGoods()
   },
   methods: {
     toggleHeader(turn) {
