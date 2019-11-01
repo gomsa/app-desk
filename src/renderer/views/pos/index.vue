@@ -16,6 +16,7 @@
       ref="foots"
       @input="handerInput"
       :status="status"
+      :info="footInfo"
       :goods="currentGoods"
       :order="order"
       :cacheAmount="cacheAmount"
@@ -40,7 +41,9 @@ import Fixed from './components/fixed.vue'
 import { Pay, Refund } from '@/api/pay'
 import { Get as VipCardGet } from '@/api/vipCard'
 
-import { Sync as SyncGoods } from '@/api/goods'
+import { Sync as SyncGoods } from '@/api/oldsql/goods'
+
+import { Sync as SyncUser } from '@/api/oldsql/user'
 
 import Order from '@/model/order'
 
@@ -79,6 +82,9 @@ export default {
         // number: 100,
         price: 3526,
         total: 1826
+      },
+      footInfo: {
+        syncGoodsTime: '暂无商品信息'
       }
     }
   },
@@ -96,7 +102,15 @@ export default {
   },
   mounted() {
     this.focus()
-    SyncGoods()
+    // 测试 log  写入POS本地配置
+    this.$store.dispatch('local/changeSetting', { key: 'terminal', value: '00666' })
+
+    setInterval(() => {
+      SyncGoods().then(value => {
+        this.footInfo.syncGoodsTime = value
+      })
+    }, 5000)
+    SyncUser()
   },
   methods: {
     toggleHeader(turn) {
@@ -123,6 +137,8 @@ export default {
         type: 1,
         publish: false
       }
+      // 选中商品情况
+      this.currentGoods = {}
     },
     initPay() {
       this.pay = {

@@ -46,7 +46,7 @@ export default {
   created() {
   },
   mounted() {
-    this.timer = setInterval(() => {
+    setInterval(() => {
       this.interval()
     }, 1000)
   },

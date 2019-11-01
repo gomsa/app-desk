@@ -9,7 +9,7 @@ const state = {
 }
 
 const mutations = {
-  CHANGE_POS_SETTING: (state, { key, value }) => {
+  CHANGE_SETTING: (state, { key, value }) => {
     if (state.hasOwnProperty(key)) {
       state[key] = value
       store.set(key, value)
@@ -18,8 +18,8 @@ const mutations = {
 }
 
 const actions = {
-  changePosSetting({ commit }, data) {
-    commit('CHANGE_POS_SETTING', data)
+  changeSetting({ commit }, data) {
+    commit('CHANGE_SETTING', data)
   }
 }
 

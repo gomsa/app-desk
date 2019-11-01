@@ -79,4 +79,3 @@ app.on('ready', () => {
   })
 })
 
-console.log(app.getPath('userData'))

@@ -34,7 +34,7 @@
               <div class="status"><span v-bind:class="[ pay.status ? 'success' : 'danger']">{{pay.status ?'已收款':'待收款' }} </span></div>
             </div>
           </div>
-          <el-row v-else>
+          <el-row v-else-if="Object.keys(goods).length>0">
             <el-col :span="12" class="good">
               <span>名称: {{ goods.name }}</span>
               <span>单价: {{ goods.price?(goods.price/100).toFixed(2):'' }}</span>
@@ -48,6 +48,9 @@
               <span>条码: {{ goods.barcode }}</span>
             </el-col>
           </el-row>
+          <div v-else>
+            <span>最后商品更新: {{ info.syncGoodsTime }}</span>
+          </div>
         </el-col>
         <el-col :span="8">
           <div class="payable background-danger">
@@ -78,6 +81,11 @@ export default {
       default: 0.00
     },
     goods: {
+      type: Object,
+      default: {
+      }
+    },
+    info: {
       type: Object,
       default: {
       }
@@ -174,6 +182,7 @@ export default {
   color:#FFF;
   height:6vh;
   line-height:6vh;
+  font-size:2.3vh;
 }
 .order{
   margin-top: 1vh;

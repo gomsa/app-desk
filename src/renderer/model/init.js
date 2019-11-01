@@ -1,7 +1,11 @@
 const Sequelize = require('sequelize')
+import path from 'path'
+import { remote } from 'electron'
 const sequelize = new Sequelize({
   dialect: 'sqlite',
-  storage: './database.sqlite'
+  storage: path.join(remote.app.getPath('userData'), '/database.sqlite'),
+  logging: false
+  // timezone: '+08:00'
 })
 
 sequelize.authenticate().then(() => {
@@ -11,6 +15,6 @@ sequelize.authenticate().then(() => {
 })
 // 初始化数据模型
 sequelize.sync({
-  force: true
+  // force: true
 })
 export default sequelize

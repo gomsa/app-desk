@@ -5,7 +5,7 @@ import app from './modules/app'
 import settings from './modules/settings'
 import user from './modules/user'
 import permission from './modules/permission'
-import pos from './modules/pos'
+import local from './modules/local'
 
 Vue.use(Vuex)
 
@@ -15,7 +15,7 @@ const store = new Vuex.Store({
     settings,
     user,
     permission,
-    pos
+    local
   },
   getters
 })

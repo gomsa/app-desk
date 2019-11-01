@@ -12,7 +12,7 @@ const Order = sequelize.define('order', {
   publish: Sequelize.BOOLEAN // 是否发布到服务器
 }, {})
 // 订单商品
-const Goods = sequelize.define('good', {
+const Goods = sequelize.define('order_good', {
   code: Sequelize.STRING, // 订单编号
   barcode: Sequelize.STRING, // 终端编号
   name: Sequelize.STRING, // 用户ID
@@ -22,7 +22,7 @@ const Goods = sequelize.define('good', {
   total: Sequelize.INTEGER
 }, {})
 // 订单支付详情
-const Pays = sequelize.define('pay', {
+const Pays = sequelize.define('order_pay', {
   type: Sequelize.STRING, // 支付方式
   code: Sequelize.STRING, // 会员卡号
   amount: Sequelize.INTEGER, // 支付金额
