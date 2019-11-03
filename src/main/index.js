@@ -21,6 +21,8 @@ function createWindow() {
    */
   Menu.setApplicationMenu(null)
   mainWindow = new BrowserWindow({
+    fullscreenable: true,
+    fullscreen: true,
     height: 563,
     useContentSize: true,
     width: 1000
