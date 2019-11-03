@@ -20,7 +20,8 @@
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix",
-    "rebuild": "./node_modules/.bin/electron-rebuild"
+    "rebuild": "./node_modules/.bin/electron-rebuild",
+    "ev": "electron --version"
   },
   "build": {
     "productName": "app-desk",
@@ -106,7 +107,7 @@
     "css-loader": "^0.28.11",
     "del": "^3.0.0",
     "devtron": "^1.4.0",
-    "electron": "^2.0.4",
+    "electron": "^2.0.18",
     "electron-builder": "^20.19.2",
     "electron-debug": "^1.5.0",
     "electron-devtools-installer": "^2.2.4",
