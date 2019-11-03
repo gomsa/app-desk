@@ -21,8 +21,8 @@ function createWindow() {
    */
   Menu.setApplicationMenu(null)
   mainWindow = new BrowserWindow({
-    fullscreenable: true,
-    fullscreen: true,
+    // fullscreenable: true,
+    // fullscreen: true,
     height: 563,
     useContentSize: true,
     width: 1000
@@ -73,12 +73,12 @@ const { globalShortcut } = require('electron')
 
 app.on('ready', () => {
   globalShortcut.register('F1', () => {
-    app.focus()
+    mainWindow.show()
   })
 })
 app.on('ready', () => {
   globalShortcut.register('F2', () => {
-    app.hide()
+    mainWindow.hide()
   })
 })
 
