@@ -88,7 +88,7 @@ export default {
       if (isExternal(this.basePath)) {
         return this.basePath
       }
-      return (path.join(this.basePath, routePath)).replace(/\\/, '/')
+      return (path.join(this.basePath, routePath)).replace(/\\/g, '/')
     }
   }
 }
