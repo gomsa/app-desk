@@ -5,5 +5,5 @@ class HelloRPC(object):
         return "Hello, %s" % name
 
 s = zerorpc.Server(HelloRPC())
-s.bind("tcp://0.0.0.0:4242")
+s.bind("tcp://0.0.0.0:1272")
 s.run()
