@@ -42,8 +42,8 @@ import { Pay, Refund } from '@/api/pay'
 import { Get as VipCardGet } from '@/api/vipCard'
 
 import { Sync as SyncGoods } from '@/api/oldsql/goods'
-
 import { Sync as SyncUser } from '@/api/oldsql/user'
+import { Hello } from '@/rpc/python'
 
 import Order from '@/model/order'
 
@@ -104,13 +104,18 @@ export default {
     this.focus()
     // 测试 log  写入POS本地配置
     this.$store.dispatch('local/changeSetting', { key: 'terminal', value: '00666' })
-
+    // 同步商品
     setInterval(() => {
       SyncGoods().then(value => {
         this.footInfo.syncGoodsTime = value
       })
     }, 5000)
+    // 同步收银用户
     SyncUser()
+    // 测试本地 python
+    Hello('***|123456|***').then(response => {
+      console.log(response)
+    })
   },
   methods: {
     toggleHeader(turn) {

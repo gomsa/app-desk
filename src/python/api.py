@@ -1,9 +1,9 @@
 import zerorpc
 
-class HelloRPC(object):
-    def hello(self, name):
-        return "Hello, %s" % name
+class RPC(object):
+    def Hello(self, params):
+        return "Hello, %s" % params
 
-s = zerorpc.Server(HelloRPC())
+s = zerorpc.Server(RPC())
 s.bind("tcp://0.0.0.0:1272")
 s.run()
