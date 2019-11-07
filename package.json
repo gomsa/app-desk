@@ -21,7 +21,7 @@
     "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix",
     "rebuild": "./node_modules/.bin/electron-rebuild",
-    "ev": "electron --version"
+    "build-python": "pyinstaller ./src/python/api.py --clean --distpath ./static/python"
   },
   "build": {
     "productName": "app-desk",

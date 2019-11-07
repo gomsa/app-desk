@@ -28,7 +28,7 @@ export default {
   name: 'heads',
   data() {
     return {
-      logo: '/static/img/logo.png',
+      logo: './static/img/logo.png',
       date: new Date(),
       stauts: {
         router: false,

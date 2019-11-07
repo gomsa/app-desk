@@ -10,7 +10,7 @@ let pyProc = null
 const createPyProc = () => {
   const port = '1272'
 
-  const script = path.join(__dirname, '../python', 'api.py')
+  const script = path.resolve('src/python', 'api.py')
   console.log(script)
 
   pyProc = require('child_process').spawn('python', [script, port])
