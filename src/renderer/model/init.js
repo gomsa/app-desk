@@ -1,20 +1,19 @@
-const Sequelize = require('sequelize')
-import path from 'path'
-import { remote } from 'electron'
-const sequelize = new Sequelize({
-  dialect: 'sqlite',
-  storage: path.join(remote.app.getPath('userData'), '/database.sqlite'),
-  logging: false
-  // timezone: '+08:00'
-})
 
-sequelize.authenticate().then(() => {
-  console.log('Connection has been established successfully.')
-}).catch(err => {
-  console.error('Unable to connect to the database:', err)
-})
-// 初始化数据模型
-sequelize.sync({
-  // force: true
-})
-export default sequelize
+import path from 'path'
+const fs = require('fs')
+import { remote } from 'electron'
+
+const dataPath = path.join(remote.app.getPath('exe'), '../database')
+mkdirsSync(dataPath, 777)
+// 递归创建目录 同步方法
+function mkdirsSync(dirname) {
+  if (fs.existsSync(dirname)) {
+    return true
+  } else {
+    if (mkdirsSync(path.dirname(dirname))) {
+      fs.mkdirSync(dirname)
+      return true
+    }
+  }
+}
+export default dataPath

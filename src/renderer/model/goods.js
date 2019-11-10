@@ -1,5 +1,18 @@
 const Sequelize = require('sequelize')
-import sequelize from './init'
+import path from 'path'
+import dataPath from './init'
+const sequelize = new Sequelize({
+  dialect: 'sqlite',
+  storage: path.join(dataPath, '/goods.sqlite'),
+  logging: false
+  // timezone: '+08:00'
+})
+
+sequelize.authenticate().then(() => {
+  console.log('Connection goods successfully.')
+}).catch(err => {
+  console.error('Unable to connect to the goods database:', err)
+})
 
 // 商品
 const Goods = sequelize.define('good', {
@@ -16,4 +29,9 @@ const BarCodes = sequelize.define('bar_code', {
 }, {})
 Goods.BarCodes = Goods.hasMany(BarCodes)
 BarCodes.Goods = BarCodes.belongsTo(Goods)
+
+// 初始化数据模型
+sequelize.sync({
+  // force: true
+})
 export { Goods, BarCodes }
