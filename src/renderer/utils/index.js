@@ -109,3 +109,11 @@ export function param2Obj(url) {
       '"}'
   )
 }
+/**
+ * 删除左右两端的空格
+ * @param {string} url
+ * @returns {Object}
+ */
+export function trim(str) {
+  return str.replace(/(^\s*)|(\s*$)/g, '')
+}
